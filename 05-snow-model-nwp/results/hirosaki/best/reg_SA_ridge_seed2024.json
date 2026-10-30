@@ -1,0 +1,24 @@
+{
+ "task": "reg",
+ "set": "SA",
+ "method": "ridge",
+ "seed": 2024,
+ "params": {
+  "target_log1p": true,
+  "alpha": 0.18450533286634577
+ },
+ "cv_score": 2.2398368027680995,
+ "cv_metric": "mean fold MAE",
+ "fold": [
+  2.1339,
+  2.142,
+  2.2481,
+  2.6043,
+  2.0709
+ ],
+ "cv_auc": null,
+ "trial": 42,
+ "n_trials": 100,
+ "seconds": 6.9,
+ "n_features": 102
+}

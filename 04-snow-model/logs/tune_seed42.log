@@ -1,0 +1,8 @@
+[seed 42] ridge: CV MAE=3.181 folds=[2.9441, 2.7541, 3.846] #81 {'target_log1p': True, 'alpha': 141.39028944769976} (1s)
+[seed 42] ridge_nohinge: CV MAE=3.133 folds=[2.918, 2.7386, 3.7431] #95 {'target_log1p': True, 'alpha': 58.042760166284424} (1s)
+.venv/lib/python3.13/site-packages/sklearn/linear_model/_coordinate_descent.py:842: ConvergenceWarning: Objective did not converge. You might want to increase the number of iterations, check the scale of the features or consider increasing regularisation. Duality gap: 6.390078e+00, tolerance: 8.560e-01
+  model = cd_fast.enet_coordinate_descent(
+[seed 42] enet: CV MAE=3.171 folds=[2.9393, 2.7344, 3.8399] #31 {'target_log1p': True, 'alpha': 0.05161072126198707, 'l1_ratio': 0.9633085003781942} (3s)
+[seed 42] rf: CV MAE=3.161 folds=[3.0432, 2.7604, 3.6782] #51 {'target_log1p': True, 'n_estimators': 100, 'max_depth': 11, 'min_samples_leaf': 9, 'max_features': 0.5037890636820128} (51s)
+[seed 42] hgb: CV MAE=3.068 folds=[2.9253, 2.6799, 3.6001] #87 {'target_log1p': True, 'learning_rate': 0.015037153172520704, 'max_iter': 675, 'max_leaf_nodes': 6, 'min_samples_leaf': 59, 'l2_regularization': 6.756813084556215e-06, 'max_features': 0.6202669781562495} (617s)
+[seed 42] svr: CV MAE=3.125 folds=[2.9096, 2.6096, 3.8558] #96 {'target_log1p': True, 'C': 0.9988001553928315, 'epsilon': 0.009704380995640192, 'gamma': 0.0073017053898682335} (2s)

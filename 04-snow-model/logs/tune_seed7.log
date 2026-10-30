@@ -1,0 +1,6 @@
+[seed 7] ridge: CV MAE=3.181 folds=[2.942, 2.755, 3.8465] #74 {'target_log1p': True, 'alpha': 144.85630741735622} (1s)
+[seed 7] ridge_nohinge: CV MAE=3.133 folds=[2.9182, 2.7385, 3.7429] #74 {'target_log1p': True, 'alpha': 57.84916521631773} (1s)
+[seed 7] enet: CV MAE=3.170 folds=[2.9358, 2.7336, 3.8396] #84 {'target_log1p': True, 'alpha': 0.04950644146980892, 'l1_ratio': 0.9985363904404412} (2s)
+[seed 7] rf: CV MAE=3.176 folds=[3.0964, 2.7174, 3.7136] #74 {'target_log1p': True, 'n_estimators': 100, 'max_depth': 15, 'min_samples_leaf': 10, 'max_features': 0.889833590473042} (61s)
+[seed 7] hgb: CV MAE=3.082 folds=[2.9257, 2.6699, 3.6493] #96 {'target_log1p': True, 'learning_rate': 0.016107105189991797, 'max_iter': 575, 'max_leaf_nodes': 46, 'min_samples_leaf': 59, 'l2_regularization': 2.1404927697538106e-05, 'max_features': 0.43205057899911087} (564s)
+[seed 7] svr: CV MAE=3.097 folds=[2.8814, 2.6719, 3.7362] #62 {'target_log1p': False, 'C': 15.815859947326683, 'epsilon': 0.004538141302165603, 'gamma': 0.004972343787445725} (4s)

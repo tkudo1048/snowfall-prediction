@@ -1,0 +1,29 @@
+{
+ "task": "reg",
+ "set": "S0",
+ "method": "hgb",
+ "seed": 7,
+ "params": {
+  "target_log1p": true,
+  "learning_rate": 0.010085838827765568,
+  "max_iter": 625,
+  "max_leaf_nodes": 35,
+  "min_samples_leaf": 45,
+  "l2_regularization": 1.8937420407865641e-06,
+  "max_features": 0.23430126551993424
+ },
+ "cv_score": 2.306447419606376,
+ "cv_metric": "mean fold MAE",
+ "fold": [
+  2.1862,
+  2.0775,
+  2.4478,
+  2.5655,
+  2.2552
+ ],
+ "cv_auc": null,
+ "trial": 89,
+ "n_trials": 100,
+ "seconds": 320.1,
+ "n_features": 55
+}

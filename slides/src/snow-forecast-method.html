@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>翌日の降雪量の予測方法</title>
+<style>
+  @page { size: 1280px 720px; margin: 0; }
+  :root {
+    --ink: #1f2328; --muted: #5f6670; --line: #d9dde3; --bg: #ffffff; --soft: #f4f6f9;
+    --blue: #2a6fbb; --blue-soft: #e6eef8; --orange: #d9822b; --orange-soft: #fbeedf;
+    --gray: #9aa1aa; --green: #3a8a5b;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); }
+  body { font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif; color: var(--ink);
+         -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .slide { width: 1280px; height: 720px; padding: 56px 72px 48px; position: relative; overflow: hidden;
+           page-break-after: always; break-after: page; display: flex; flex-direction: column; }
+  .slide:last-child { page-break-after: auto; break-after: auto; }
+  .kicker { font-size: 18px; color: var(--blue); font-weight: 700; letter-spacing: .04em; margin-bottom: 10px; }
+  h1 { font-size: 40px; line-height: 1.3; margin: 0 0 28px; font-weight: 800; }
+  h2 { font-size: 24px; margin: 0 0 12px; font-weight: 700; }
+  p, li { font-size: 22px; line-height: 1.6; }
+  p { margin: 0 0 12px; }
+  ul { margin: 0; padding-left: 1.2em; }
+  li { margin-bottom: 8px; }
+  .muted { color: var(--muted); }
+  .small { font-size: 17px; }
+  .foot { position: absolute; left: 72px; right: 72px; bottom: 22px; font-size: 13px; color: var(--muted);
+          display: flex; justify-content: space-between; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start; }
+  .cols3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; }
+  .card { background: var(--soft); border-radius: 12px; padding: 22px 24px; }
+  .card h2 { font-size: 22px; }
+  .card li, .card p { font-size: 19px; }
+  .tag { display: inline-block; font-size: 15px; font-weight: 700; padding: 3px 10px; border-radius: 999px; margin-bottom: 10px; }
+  .tag.blue { background: var(--blue-soft); color: var(--blue); }
+  .tag.orange { background: var(--orange-soft); color: #a85a12; }
+  .tag.gray { background: #eceef1; color: var(--muted); }
+  .big { font-size: 30px; font-weight: 800; line-height: 1.45; }
+  .accent { color: var(--blue); }
+  .warn { color: #a85a12; }
+
+  /* title */
+  .title { justify-content: center; background: linear-gradient(135deg, #f4f8fd 0%, #ffffff 60%); }
+  .title h1 { font-size: 54px; margin-bottom: 18px; }
+  .title .sub { font-size: 24px; color: var(--muted); }
+
+  /* stacked feature sets */
+  .sets { display: flex; flex-direction: column; gap: 14px; margin-top: 6px; }
+  .set { display: grid; grid-template-columns: 170px 1fr 150px; align-items: center; gap: 20px;
+         border-radius: 12px; padding: 16px 22px; }
+  .set .name { font-size: 26px; font-weight: 800; }
+  .set .desc { font-size: 19px; line-height: 1.5; }
+  .set .n { font-size: 18px; text-align: right; color: var(--muted); }
+  .set.s0 { background: #eceef1; }
+  .set.sa { background: var(--blue-soft); }
+  .set.sb { background: var(--orange-soft); }
+
+  /* timeline */
+  .tl { position: relative; height: 150px; margin: 18px 0 8px; }
+  .tl .axis { position: absolute; top: 70px; left: 0; right: 0; height: 4px; background: var(--line); }
+  .tl .seg { position: absolute; top: 58px; height: 28px; border-radius: 6px; }
+  .tl .lbl { position: absolute; font-size: 17px; white-space: nowrap; }
+  .tl .tick { position: absolute; top: 50px; width: 3px; height: 44px; background: var(--ink); }
+
+  /* bars */
+  .bars { display: flex; flex-direction: column; gap: 9px; }
+  .bar { display: grid; grid-template-columns: 300px 1fr 70px; align-items: center; gap: 14px; }
+  .bar .l { font-size: 17px; text-align: right; }
+  .bar .t { height: 24px; background: #f0f2f5; border-radius: 4px; position: relative; }
+  .bar .f { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 4px; }
+  .bar .v { font-size: 17px; font-weight: 700; }
+  .grp { font-size: 15px; color: var(--muted); font-weight: 700; margin-top: 6px; }
+
+  .flow { display: flex; align-items: stretch; gap: 14px; margin-top: 10px; }
+  .flow .step { flex: 1; background: var(--soft); border-radius: 12px; padding: 18px 18px; }
+  .flow .step .num { font-size: 15px; font-weight: 800; color: var(--blue); }
+  .flow .step h2 { font-size: 21px; margin: 4px 0 8px; }
+  .flow .step p { font-size: 17px; line-height: 1.55; margin: 0; }
+  .flow .arrow { align-self: center; font-size: 26px; color: var(--gray); }
+</style>
+</head>
+<body>
+
+<!-- 1 -->
+<section class="slide title">
+  <div class="kicker">天気予測プロジェクト / 降雪モデル</div>
+  <h1>翌日の降雪量は<br>どうやって予測したのか</h1>
+  <div class="sub">青森の「明日の降雪量（cm）」を、今夜の時点のデータで当てる</div>
+  <div class="foot"><span>データ: 気象庁（過去の気象データ）、Open-Meteo（気象庁 GSM / MSM、CC BY 4.0）</span><span>2026-10</span></div>
+</section>
+
+<!-- 2 -->
+<section class="slide">
+  <div class="kicker">最初に結論</div>
+  <h1>今夜わかる情報だけでは、大雪の予想には届かない</h1>
+  <div class="cols">
+    <div class="card">
+      <span class="tag blue">分かったこと</span>
+      <ul>
+        <li>観測データだけでも、単純な予測より外れは小さくなる（平均の外れ 4.4cm → 3.4cm）</li>
+        <li>今日の上空の値を足すと、さらに 2〜5% 改善</li>
+        <li>大雪（20cm以上）を当てる力は、ほぼ「明日の予報」から来ていた</li>
+      </ul>
+    </div>
+    <div class="card">
+      <span class="tag orange">その理由</span>
+      <ul>
+        <li>明日の雪をもたらす寒気や雪雲は、今夜はまだ上空や日本海の上にある</li>
+        <li>ニュースの大雪予想は、明日の大気を物理計算した「数値予報」を使っている</li>
+        <li>今回のモデルは、その計算結果を「今夜の時点では」持っていない</li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot"><span>評価: 2024-25・2025-26 の2冬（301日、うち大雪日16日）</span><span>2</span></div>
+</section>
+
+<!-- 3 -->
+<section class="slide">
+  <div class="kicker">予測の問い</div>
+  <h1>今夜（t日）の時点で、明日（t+1日）の降雪量を当てる</h1>
+  <div class="cols3" style="margin-top:6px">
+    <div class="card"><span class="tag blue">何を当てるか</span>
+      <p>青森（気象台）の<br><b>翌日の日降雪量（cm）</b></p>
+      <p class="small muted">数値を当てる「回帰」と、20cm以上かどうかを当てる「分類」の2種類</p></div>
+    <div class="card"><span class="tag blue">いつの日か</span>
+      <p>予測する日が<br><b>11〜3月</b>の日だけ</p>
+      <p class="small muted">夏はほぼ0cmで、含めると見かけの精度が良くなりすぎるため</p></div>
+    <div class="card"><span class="tag blue">何を使ってよいか</span>
+      <p><b>今日の21時まで</b>に<br>分かっている値だけ</p>
+      <p class="small muted">明日の値を入力に使うと「答えを見て解く」ことになる（リーク）</p></div>
+  </div>
+  <p class="small muted" style="margin-top:22px">リーク: 予測する時点ではまだ分からないはずの情報が、学習や予測に紛れ込むこと。精度が実際より良く見える。</p>
+  <div class="foot"><span>予測の仕方</span><span>3</span></div>
+</section>
+
+<!-- 4 -->
+<section class="slide">
+  <div class="kicker">使ったデータ</div>
+  <h1>地上の観測と、上空を含む数値予報の2種類</h1>
+  <div class="cols">
+    <div class="card">
+      <span class="tag gray">気象庁「過去の気象データ」</span>
+      <h2>地上の日別の観測値</h2>
+      <ul>
+        <li>青森（気象台）と弘前（アメダス）</li>
+        <li>2016年1月〜2026年8月（10冬分）</li>
+        <li>気温・湿度・気圧・降水量・風・日照・降雪・積雪・天気概況</li>
+      </ul>
+    </div>
+    <div class="card">
+      <span class="tag blue">Open-Meteo（Historical Forecast API）</span>
+      <h2>気象庁の数値予報モデルの値</h2>
+      <ul>
+        <li>GSM（全球、0.5度格子）: 上空の気温・湿度・風・高度</li>
+        <li>MSM（日本付近、約5km格子）: 地上の気温・気圧・降水量・降雪量</li>
+        <li>青森付近と、上流の日本海の2地点</li>
+      </ul>
+      <p class="small muted" style="margin-top:8px">各予報回の「最初の数時間」をつないだ値で、ほぼ実況に近い。前日に出た予報そのものではない。</p>
+    </div>
+  </div>
+  <div class="foot"><span>Open-Meteo のデータは CC BY 4.0（非商用で利用）</span><span>4</span></div>
+</section>
+
+<!-- 5 -->
+<section class="slide">
+  <div class="kicker">特徴量（モデルへの入力）</div>
+  <h1>入力を3段階に増やして、何が効くかを比べた</h1>
+  <div class="sets">
+    <div class="set s0"><div class="name">S0</div>
+      <div class="desc"><b>観測データだけ（基準）</b><br>青森・弘前の今日の気温・湿度・気圧・風・日照・降雪・積雪、前日の値、天気概況の印、「寒さ」の折れ線（2℃より低い分）、季節</div>
+      <div class="n">51個</div></div>
+    <div class="set sa"><div class="name">SA</div>
+      <div class="desc"><b>S0 ＋ 今日の数値予報（実際に運用できる）</b><br>上空約1,500m の気温・湿度・風、約5,500m の高度（気圧の谷の目安）、大気の安定度、上流の日本海の寒気と降水</div>
+      <div class="n">＋47個</div></div>
+    <div class="set sb"><div class="name">SB</div>
+      <div class="desc"><b>SA ＋ 明日の数値予報（上限の目安・運用不可）</b><br>明日の上空の値と降水量・降雪量。「予報がほぼ当たったら、ここまで当てられる」という参考値</div>
+      <div class="n">＋32個</div></div>
+  </div>
+  <div class="foot"><span>合計: S0 51個、SA 98個、SB 130個</span><span>5</span></div>
+</section>
+
+<!-- 6 -->
+<section class="slide">
+  <div class="kicker">リークを防ぐ</div>
+  <h1>「今日の21時まで」を、1時間単位で守る</h1>
+  <div class="tl">
+    <div class="axis"></div>
+    <div class="seg" style="left:0; width:60%; background:var(--blue-soft); border:2px solid var(--blue);"></div>
+    <div class="seg" style="left:60%; width:40%; background:var(--orange-soft); border:2px dashed var(--orange);"></div>
+    <div class="tick" style="left:60%"></div>
+    <div class="lbl" style="left:0; top:14px; color:var(--blue); font-weight:700">SA で使ってよい範囲（今日の0〜21時）</div>
+    <div class="lbl" style="left:61%; top:14px; color:#a85a12; font-weight:700">使えない（21時以降・明日）</div>
+    <div class="lbl" style="left:58%; top:100px; font-weight:700">今日 21時</div>
+    <div class="lbl" style="left:0; top:100px" class="muted">今日 0時</div>
+  </div>
+  <div class="cols" style="margin-top:4px">
+    <div class="card">
+      <h2>見つかった落とし穴</h2>
+      <p>GSM の上空の値は、本来 3・9・15・21時の6時間ごと。Open-Meteo はその間を<b>補間</b>していたため、今日16〜20時の値に<b>明日3時の値</b>がわずかに混ざっていた。</p>
+    </div>
+    <div class="card">
+      <h2>対処と確認</h2>
+      <ul>
+        <li>上空の値は、補間されていない4時刻の値だけを使う</li>
+        <li>今日21時より後のデータをわざと壊しても、特徴量が1つも変わらないことをテストで確認</li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot"><span>天気概況（夜）も翌朝6時までを含むため、前日の夜の値を使った</span><span>6</span></div>
+</section>
+
+<!-- 7 -->
+<section class="slide">
+  <div class="kicker">学習と評価の分け方</div>
+  <h1>過去で学び、まだ見ていない冬で試す</h1>
+  <div class="tl" style="height:130px">
+    <div class="seg" style="left:0; width:76%; top:40px; height:40px; background:var(--blue-soft); border:2px solid var(--blue);"></div>
+    <div class="seg" style="left:77%; width:23%; top:40px; height:40px; background:var(--orange-soft); border:2px solid var(--orange);"></div>
+    <div class="lbl" style="left:12px; top:48px; font-weight:700; color:var(--blue)">学習データ: 2016年〜2023-24年の冬（1,299日、大雪日36日）</div>
+    <div class="lbl" style="left:78%; top:48px; font-weight:700; color:#a85a12">評価: 最後の2冬</div>
+    <div class="lbl" style="left:0; top:94px" >2016</div>
+    <div class="lbl" style="left:73%; top:94px">2024-25</div>
+    <div class="lbl" style="left:90%; top:94px">2025-26</div>
+  </div>
+  <div class="cols">
+    <div class="card">
+      <h2>チューニングは学習データの中だけ</h2>
+      <p>冬ごとに「それより前の冬で学習 → その冬を予測」を5回くり返す（時系列の交差検証）。日付をシャッフルしない。</p>
+    </div>
+    <div class="card">
+      <h2>評価データは最後に1回だけ</h2>
+      <p>評価の2冬（301日、大雪日16日）は、モデルや設定を選ぶのには使わない。選ぶたびに見ると、成績が楽観的になるため。</p>
+    </div>
+  </div>
+  <div class="foot"><span>予測の仕方</span><span>7</span></div>
+</section>
+
+<!-- 8 -->
+<section class="slide">
+  <div class="kicker">手法とチューニング</div>
+  <h1>3つの手法を、同じ条件でOptunaに調整させる</h1>
+  <div class="flow">
+    <div class="step"><div class="num">STEP 1</div><h2>手法を用意</h2>
+      <p><b>Ridge</b>（線形回帰。係数で中身を読める）<br><b>勾配ブースティング</b>（決定木を少しずつ足す）<br><b>ランダムフォレスト</b>（決定木の多数決）</p></div>
+    <div class="arrow">→</div>
+    <div class="step"><div class="num">STEP 2</div><h2>Optunaで調整</h2>
+      <p>各手法100回ずつ、パラメータを試す。<br>交差検証の平均の外れ（MAE）が最小になる組み合わせを選ぶ。</p></div>
+    <div class="arrow">→</div>
+    <div class="step"><div class="num">STEP 3</div><h2>目的変数を変換</h2>
+      <p>降雪量は0が多く、まれに大きい値が出る。<br>log(1+x) に変換するかどうかも、Optunaに選ばせた。</p></div>
+    <div class="arrow">→</div>
+    <div class="step"><div class="num">STEP 4</div><h2>大雪の分類</h2>
+      <p>「明日20cm以上か」を当てる分類モデルも別に作成（ロジスティック回帰ほか）。大雪日に重みを置いて学習。</p></div>
+  </div>
+  <p class="small muted" style="margin-top:22px">条件をそろえる: 3手法 × S0/SA/SB のすべてで、試行回数・分け方・変換の選択肢・乱数の種（3通り）を同じにした。</p>
+  <div class="foot"><span>MAE: 予測の外れの平均（cm）。小さいほど良い。</span><span>8</span></div>
+</section>
+
+<!-- 9 -->
+<section class="slide">
+  <div class="kicker">比べる相手</div>
+  <h1>「何も考えない予測」より良いかを、まず確かめる</h1>
+  <div class="cols3">
+    <div class="card"><span class="tag gray">基準1</span><h2>常に0cm</h2><p>冬でも雪のない日が多いので、意外と外れが小さい</p></div>
+    <div class="card"><span class="tag gray">基準2</span><h2>今日と同じ量</h2><p>「明日も今日くらい降る」とする持続予測</p></div>
+    <div class="card"><span class="tag gray">基準3</span><h2>月別の平均</h2><p>学習データでの、その月の平均降雪量</p></div>
+  </div>
+  <div class="card" style="margin-top:24px">
+    <h2>差が偶然でないかも確かめる</h2>
+    <p>評価期間を日単位・7日ずつのブロック単位で何度も抜き直し（ブートストラップ）、差の95%区間が0をまたがないかを見た。乱数の種を変えた再実行でも確認。</p>
+  </div>
+  <div class="foot"><span>予測の仕方</span><span>9</span></div>
+</section>
+
+<!-- 10 -->
+<section class="slide">
+  <div class="kicker">結果: 翌日の降雪量の外れ（MAE、評価の2冬）</div>
+  <h1>上空の値で少し良くなり、明日の予報で大きく良くなる</h1>
+  <div class="bars">
+    <div class="grp">基準</div>
+    <div class="bar"><div class="l">常に0cm</div><div class="t"><div class="f" style="width:87.8%; background:var(--gray)"></div></div><div class="v">4.39</div></div>
+    <div class="bar"><div class="l">今日と同じ量</div><div class="t"><div class="f" style="width:81.5%; background:var(--gray)"></div></div><div class="v">4.07</div></div>
+    <div class="grp">S0 観測だけ</div>
+    <div class="bar"><div class="l">勾配ブースティング</div><div class="t"><div class="f" style="width:67.8%; background:#6f7782"></div></div><div class="v">3.39</div></div>
+    <div class="bar"><div class="l">Ridge（線形）</div><div class="t"><div class="f" style="width:70.5%; background:#6f7782"></div></div><div class="v">3.52</div></div>
+    <div class="grp">SA ＋今日の数値予報（運用できる）</div>
+    <div class="bar"><div class="l">勾配ブースティング</div><div class="t"><div class="f" style="width:64.5%; background:var(--blue)"></div></div><div class="v">3.23</div></div>
+    <div class="bar"><div class="l">Ridge（線形）</div><div class="t"><div class="f" style="width:69.0%; background:var(--blue)"></div></div><div class="v">3.45</div></div>
+    <div class="grp">SB ＋明日の数値予報（上限の目安・運用不可）</div>
+    <div class="bar"><div class="l">勾配ブースティング</div><div class="t"><div class="f" style="width:44.3%; background:var(--orange)"></div></div><div class="v">2.21</div></div>
+    <div class="bar"><div class="l">Ridge（線形）</div><div class="t"><div class="f" style="width:54.8%; background:var(--orange)"></div></div><div class="v">2.74</div></div>
+  </div>
+  <div class="foot"><span>単位 cm。ランダムフォレストは S0 3.46 / SA 3.30 / SB 2.25。乱数の種 42 の結果。</span><span>10</span></div>
+</section>
+
+<!-- 11 -->
+<section class="slide">
+  <div class="kicker">結果: 大雪日（20cm以上）</div>
+  <h1>今夜の情報だけでは、大雪の半分ほどしか拾えない</h1>
+  <div class="cols">
+    <div class="card">
+      <h2>量の予測で「20cm以上」と判定</h2>
+      <p class="big">16日中 <span class="warn">0日</span></p>
+      <p>予測は全体に控えめ。誤差の平均を小さくする学習では、まれな大雪を大きく出して外すより、少なめに出す方が得になる。</p>
+    </div>
+    <div class="card">
+      <h2>大雪専用の分類モデル（ロジスティック回帰）</h2>
+      <ul>
+        <li>S0: 16日中 <b>5日</b> 的中（20日を大雪と判定）</li>
+        <li>SA: 16日中 <b>8日</b> 的中（34日を大雪と判定）</li>
+      </ul>
+      <p class="small muted">S0 と SA の差は偶然の範囲。明日の予報を入れた SB では大きく改善（平均適合率 0.49〜0.64）。</p>
+    </div>
+  </div>
+  <div class="foot"><span>評価の大雪日は16日だけなので、1〜2日の当たり外れで数字が大きく動く</span><span>11</span></div>
+</section>
+
+<!-- 12 -->
+<section class="slide">
+  <div class="kicker">何が効いていたか</div>
+  <h1>上空の気圧の谷と、上流の寒気</h1>
+  <div class="cols3">
+    <div class="card"><span class="tag gray">S0 観測</span>
+      <ul><li>気温</li><li>気圧（低い・下がっているほど雪）</li><li>今日の降雪・積雪</li></ul>
+      <p class="small muted">湿度・日照は、翌日の予測にはほとんど効かない</p></div>
+    <div class="card"><span class="tag blue">SA 今日の数値予報</span>
+      <ul><li>上空約5,500m の高度（今日下がるほど雪）</li><li>上流の日本海の上空約1,500m の気温</li></ul>
+      <p class="small muted">気圧の谷が深まり、上流に寒気があると翌日の雪が増える</p></div>
+    <div class="card"><span class="tag orange">SB 明日の数値予報</span>
+      <ul><li>明日の MSM の降雪量</li></ul>
+      <p class="small muted">改善のほとんどがこれ。大雪予想の決め手は「明日の大気の計算結果」</p></div>
+  </div>
+  <div class="foot"><span>特徴量を1グループずつ並べ替えて、外れがどれだけ増えるかで重要さを測った（permutation importance）</span><span>12</span></div>
+</section>
+
+<!-- 13 -->
+<section class="slide">
+  <div class="kicker">注意点</div>
+  <h1>この結果を読むときの注意</h1>
+  <ul>
+    <li><b>評価は2冬・大雪日16日だけ。</b>大雪の当たり外れの数字は1〜2日で大きく変わる。</li>
+    <li><b>過学習がある。</b>勾配ブースティングは学習データの外れ 2.04cm に対し評価 3.23cm。Ridge はこの差が小さい。</li>
+    <li><b>SA は少し有利かもしれない。</b>今日21時の値が実際に手に入るのは深夜。</li>
+    <li><b>SB は運用できない。</b>明日の値はほぼ実況で、本物の前日の予報より当たりやすい。</li>
+    <li><b>本物の「前日に出た予報」では測れていない。</b>その過去データは2026年4月以降の分しかない。</li>
+    <li>複数の手法から一番良いものを選ぶと、成績は実際より楽観的に見える。</li>
+  </ul>
+  <div class="foot"><span>予測の仕方</span><span>13</span></div>
+</section>
+
+<!-- 14 -->
+<section class="slide">
+  <div class="kicker">まとめ</div>
+  <h1>予測の仕方を振り返る4つのポイント</h1>
+  <ol style="margin:0; padding-left:1.3em">
+    <li style="font-size:24px; margin-bottom:16px"><b>問いを決める</b>: 今夜の時点で、明日の降雪量を当てる（11〜3月）</li>
+    <li style="font-size:24px; margin-bottom:16px"><b>使える情報を守る</b>: 今日21時までの値だけ。補間のような見えにくいリークもテストで確かめる</li>
+    <li style="font-size:24px; margin-bottom:16px"><b>公平に比べる</b>: 時系列で分け、評価の冬は最後に1回だけ。単純な予測と必ず比べる</li>
+    <li style="font-size:24px; margin-bottom:16px"><b>入力を段階的に増やす</b>: S0 → SA → SB の差で、どの情報が効くかが分かる</li>
+  </ol>
+  <p class="muted" style="margin-top:12px">次の一歩: 本物の前日の予報（2026年4月以降に蓄積中）が冬の分まで溜まったら、運用できる形で大雪予測を検証する。</p>
+  <div class="foot"><span>データ: 気象庁、Open-Meteo（気象庁 GSM / MSM、CC BY 4.0）</span><span>14</span></div>
+</section>
+
+</body>
+</html>

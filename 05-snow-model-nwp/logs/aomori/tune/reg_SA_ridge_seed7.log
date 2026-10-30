@@ -1,0 +1,1 @@
+reg_SA_ridge_seed7: CV=2.5210 fold=[1.7954, 2.3858, 3.051, 2.7631, 2.61] #26 {'target_log1p': True, 'alpha': 706.490431057412} (8s)

@@ -1,0 +1,1 @@
+reg_S0_hgb_seed2024: CV=2.3042 fold=[2.1662, 2.0843, 2.485, 2.5389, 2.2466] #60 {'target_log1p': True, 'learning_rate': 0.01501852733337713, 'max_iter': 325, 'max_leaf_nodes': 12, 'min_samples_leaf': 38, 'l2_regularization': 1.5309695985172969, 'max_features': 0.3108035949189655} (245s)

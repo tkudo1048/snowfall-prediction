@@ -1,0 +1,14 @@
+[seed 2024] ridge: CV MAE=3.181 folds=[2.9394, 2.7561, 3.847] #76 {'target_log1p': True, 'alpha': 149.39476406279854} (1s)
+[seed 2024] ridge_nohinge: CV MAE=3.133 folds=[2.919, 2.7381, 3.7425] #54 {'target_log1p': True, 'alpha': 57.01986655319671} (1s)
+.venv/lib/python3.13/site-packages/sklearn/linear_model/_coordinate_descent.py:842: ConvergenceWarning: Objective did not converge. You might want to increase the number of iterations, check the scale of the features or consider increasing regularisation. Duality gap: 7.243281e+00, tolerance: 8.560e-01
+  model = cd_fast.enet_coordinate_descent(
+.venv/lib/python3.13/site-packages/sklearn/linear_model/_coordinate_descent.py:842: ConvergenceWarning: Objective did not converge. You might want to increase the number of iterations, check the scale of the features or consider increasing regularisation. Duality gap: 1.321192e+01, tolerance: 1.449e+00
+  model = cd_fast.enet_coordinate_descent(
+.venv/lib/python3.13/site-packages/sklearn/linear_model/_coordinate_descent.py:842: ConvergenceWarning: Objective did not converge. You might want to increase the number of iterations, check the scale of the features or consider increasing regularisation. Duality gap: 8.029739e+01, tolerance: 8.560e-01
+  model = cd_fast.enet_coordinate_descent(
+.venv/lib/python3.13/site-packages/sklearn/linear_model/_coordinate_descent.py:842: ConvergenceWarning: Objective did not converge. You might want to increase the number of iterations, check the scale of the features or consider increasing regularisation. Duality gap: 2.414696e+00, tolerance: 1.449e+00
+  model = cd_fast.enet_coordinate_descent(
+[seed 2024] enet: CV MAE=3.173 folds=[2.9462, 2.7343, 3.8389] #99 {'target_log1p': True, 'alpha': 0.054999395605122986, 'l1_ratio': 0.8888991093840762} (4s)
+[seed 2024] rf: CV MAE=3.178 folds=[3.1442, 2.6975, 3.6934] #96 {'target_log1p': True, 'n_estimators': 200, 'max_depth': 7, 'min_samples_leaf': 9, 'max_features': 0.9983084382870121} (67s)
+[seed 2024] hgb: CV MAE=3.048 folds=[2.8312, 2.6924, 3.6208] #68 {'target_log1p': True, 'learning_rate': 0.09190288274166619, 'max_iter': 125, 'max_leaf_nodes': 53, 'min_samples_leaf': 68, 'l2_regularization': 0.4922656030968524, 'max_features': 0.26335993618231} (345s)
+[seed 2024] svr: CV MAE=3.125 folds=[2.9118, 2.6049, 3.8597] #41 {'target_log1p': True, 'C': 0.9910753269572842, 'epsilon': 0.0020625522263009286, 'gamma': 0.007710760780304372} (3s)

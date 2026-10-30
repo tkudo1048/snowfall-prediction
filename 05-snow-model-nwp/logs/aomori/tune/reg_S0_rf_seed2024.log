@@ -1,0 +1,1 @@
+reg_S0_rf_seed2024: CV=2.6190 fold=[1.8914, 2.5533, 3.0962, 2.8131, 2.7412] #55 {'target_log1p': True, 'n_estimators': 450, 'max_depth': 19, 'min_samples_leaf': 10, 'max_features': 0.552697320466987} (706s)

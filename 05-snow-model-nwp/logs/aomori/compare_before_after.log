@@ -1,0 +1,70 @@
+=== 回帰（修正前 → 修正後） ===
+  persistence: cv_mae 3.141→3.141, eval_mae 4.073→4.073, eval_rmse 7.497→7.497, eval_r2 -0.016→-0.016, eval_heavy_auc 0.850→0.850, eval_heavy_ap 0.176→0.176, hit_at20 3.000→3.000, pred_pos_atcv 45.000→45.000, hit_atcv 8.000→8.000, miss_atcv 8.000→8.000
+  monthly_mean: cv_mae 3.837→3.837, eval_mae 4.353→4.353, eval_rmse 6.845→6.845, eval_r2 0.153→0.153, eval_heavy_auc 0.759→0.759, eval_heavy_ap 0.111→0.111, hit_at20 0.000→0.000, pred_pos_atcv 124.000→124.000, hit_atcv 12.000→12.000, miss_atcv 4.000→4.000
+  zero: cv_mae 3.127→3.127, eval_mae 4.392→4.392, eval_rmse 8.636→8.636, eval_r2 -0.349→-0.349, eval_heavy_auc 0.500→0.500, eval_heavy_ap 0.053→0.053, hit_at20 0.000→0.000, pred_pos_atcv 0.000→0.000, hit_atcv 0.000→0.000, miss_atcv 16.000→16.000
+  nwp_msm_raw: cv_mae 2.021→2.021, eval_mae 2.866→2.866, eval_rmse 5.668→5.668, eval_r2 0.419→0.419, eval_heavy_auc 0.974→0.974, eval_heavy_ap 0.585→0.585, hit_at20 0.000→0.000, pred_pos_atcv 21.000→21.000, hit_atcv 11.000→11.000, miss_atcv 5.000→5.000
+  nwp_gsm_raw: cv_mae 2.799→2.836, eval_mae 4.168→4.201, eval_rmse 8.237→8.284, eval_r2 -0.227→-0.241, eval_heavy_auc 0.671→0.674, eval_heavy_ap 0.201→0.221, hit_at20 0.000→0.000, pred_pos_atcv 8.000→9.000, hit_atcv 3.000→3.000, miss_atcv 13.000→13.000
+  nwp_msm_scaled: cv_mae 2.161→2.161, eval_mae 2.446→2.446, eval_rmse 4.810→4.810, eval_r2 0.582→0.582, eval_heavy_auc 0.974→0.974, eval_heavy_ap 0.585→0.585, hit_at20 6.000→6.000, pred_pos_atcv 19.000→19.000, hit_atcv 10.000→10.000, miss_atcv 6.000→6.000
+  S0_ridge: cv_mae 2.587→2.587, eval_mae 3.523→3.523, eval_rmse 6.731→6.731, eval_r2 0.181→0.181, eval_heavy_auc 0.849→0.849, eval_heavy_ap 0.230→0.230, hit_at20 0.000→0.000, pred_pos_atcv 23.000→23.000, hit_atcv 6.000→6.000, miss_atcv 10.000→10.000
+  S0_hgb: cv_mae 2.524→2.524, eval_mae 3.391→3.391, eval_rmse 6.434→6.434, eval_r2 0.251→0.251, eval_heavy_auc 0.860→0.860, eval_heavy_ap 0.284→0.284, hit_at20 0.000→0.000, pred_pos_atcv 30.000→30.000, hit_atcv 7.000→7.000, miss_atcv 9.000→9.000
+  S0_rf: cv_mae 2.622→2.622, eval_mae 3.457→3.457, eval_rmse 6.595→6.595, eval_r2 0.213→0.213, eval_heavy_auc 0.857→0.857, eval_heavy_ap 0.300→0.300, hit_at20 0.000→0.000, pred_pos_atcv 31.000→31.000, hit_atcv 6.000→6.000, miss_atcv 10.000→10.000
+  SA_ridge: cv_mae 2.521→2.521, eval_mae 3.453→3.452, eval_rmse 6.570→6.569, eval_r2 0.219→0.220, eval_heavy_auc 0.866→0.866, eval_heavy_ap 0.278→0.277, hit_at20 0.000→0.000, pred_pos_atcv 47.000→47.000, hit_atcv 8.000→8.000, miss_atcv 8.000→8.000
+  SA_hgb: cv_mae 2.340→2.337, eval_mae 3.306→3.226, eval_rmse 6.297→6.148, eval_r2 0.283→0.316, eval_heavy_auc 0.868→0.879, eval_heavy_ap 0.276→0.300, hit_at20 0.000→0.000, pred_pos_atcv 51.000→40.000, hit_atcv 9.000→9.000, miss_atcv 7.000→7.000
+  SA_rf: cv_mae 2.411→2.404, eval_mae 3.310→3.299, eval_rmse 6.323→6.308, eval_r2 0.277→0.280, eval_heavy_auc 0.878→0.882, eval_heavy_ap 0.321→0.381, hit_at20 0.000→0.000, pred_pos_atcv 69.000→52.000, hit_atcv 11.000→10.000, miss_atcv 5.000→6.000
+  SB_ridge: cv_mae 2.307→2.286, eval_mae 2.740→2.740, eval_rmse 4.596→4.587, eval_r2 0.618→0.619, eval_heavy_auc 0.973→0.972, eval_heavy_ap 0.520→0.512, hit_at20 0.000→0.000, pred_pos_atcv 17.000→26.000, hit_atcv 10.000→12.000, miss_atcv 6.000→4.000
+  SB_hgb: cv_mae 1.619→1.623, eval_mae 2.253→2.213, eval_rmse 4.513→4.400, eval_r2 0.632→0.650, eval_heavy_auc 0.975→0.977, eval_heavy_ap 0.629→0.665, hit_at20 0.000→1.000, pred_pos_atcv 9.000→16.000, hit_atcv 7.000→9.000, miss_atcv 9.000→7.000
+  SB_rf: cv_mae 1.711→1.710, eval_mae 2.277→2.253, eval_rmse 4.464→4.445, eval_r2 0.640→0.643, eval_heavy_auc 0.981→0.981, eval_heavy_ap 0.723→0.726, hit_at20 0.000→0.000, pred_pos_atcv 28.000→31.000, hit_atcv 16.000→16.000, miss_atcv 0.000→0.000
+=== 分類（修正前 → 修正後） ===
+  persistence: cv_auc 0.791→0.791, cv_ap 0.117→0.117, eval_auc 0.850→0.850, eval_ap 0.176→0.176, thr_atcv 13.000→13.000, pred_pos_atcv 45.000→45.000, hit_atcv 8.000→8.000, miss_atcv 8.000→8.000
+  zero: cv_auc 0.500→0.500, cv_ap 0.029→0.029, eval_auc 0.500→0.500, eval_ap 0.053→0.053, thr_atcv inf→inf, pred_pos_atcv 0.000→0.000, hit_atcv 0.000→0.000, miss_atcv 16.000→16.000
+  nwp_msm_raw: cv_auc 0.968→0.968, cv_ap 0.376→0.376, eval_auc 0.974→0.974, eval_ap 0.585→0.585, thr_atcv 8.260→8.260, pred_pos_atcv 21.000→21.000, hit_atcv 11.000→11.000, miss_atcv 5.000→5.000
+  nwp_gsm_raw: cv_auc 0.741→0.739, cv_ap 0.193→0.155, eval_auc 0.671→0.674, eval_ap 0.201→0.221, thr_atcv 3.150→2.310, pred_pos_atcv 8.000→9.000, hit_atcv 3.000→3.000, miss_atcv 13.000→13.000
+  nwp_msm_scaled: cv_auc 0.965→0.965, cv_ap 0.358→0.358, eval_auc 0.974→0.974, eval_ap 0.585→0.585, thr_atcv 13.216→13.216, pred_pos_atcv 19.000→19.000, hit_atcv 10.000→10.000, miss_atcv 6.000→6.000
+  S0_logreg: cv_auc 0.798→0.798, cv_ap 0.110→0.110, eval_auc 0.862→0.862, eval_ap 0.259→0.259, thr_atcv 0.885→0.885, pred_pos_atcv 20.000→20.000, hit_atcv 5.000→5.000, miss_atcv 11.000→11.000
+  S0_hgbc: cv_auc 0.749→0.749, cv_ap 0.145→0.145, eval_auc 0.847→0.847, eval_ap 0.278→0.278, thr_atcv 0.640→0.640, pred_pos_atcv 7.000→7.000, hit_atcv 3.000→3.000, miss_atcv 13.000→13.000
+  SA_logreg: cv_auc 0.840→0.839, cv_ap 0.103→0.103, eval_auc 0.878→0.879, eval_ap 0.318→0.327, thr_atcv 0.783→0.725, pred_pos_atcv 32.000→34.000, hit_atcv 7.000→8.000, miss_atcv 9.000→8.000
+  SA_hgbc: cv_auc 0.831→0.845, cv_ap 0.216→0.219, eval_auc 0.864→0.865, eval_ap 0.233→0.270, thr_atcv 0.002→0.383, pred_pos_atcv 10.000→10.000, hit_atcv 2.000→4.000, miss_atcv 14.000→12.000
+  SB_logreg: cv_auc 0.870→0.872, cv_ap 0.308→0.304, eval_auc 0.928→0.919, eval_ap 0.497→0.487, thr_atcv 0.826→0.843, pred_pos_atcv 24.000→31.000, hit_atcv 8.000→10.000, miss_atcv 8.000→6.000
+  SB_hgbc: cv_auc 0.960→0.955, cv_ap 0.530→0.592, eval_auc 0.972→0.956, eval_ap 0.654→0.637, thr_atcv 0.121→0.044, pred_pos_atcv 11.000→9.000, hit_atcv 6.000→5.000, miss_atcv 10.000→11.000
+=== 区間（7日ブロック、修正前 → 修正後） ===
+  clf AP hgbc SA-S0: -0.044 [-0.227, +0.115] → -0.008 [-0.205, +0.204]
+  clf AP hgbc SA-persistence: +0.058 [-0.082, +0.244] → +0.094 [-0.061, +0.329]
+  clf AP hgbc SB-S0: +0.377 [+0.103, +0.577] → +0.360 [+0.064, +0.583]
+  clf AP hgbc SB-SA: +0.421 [+0.197, +0.572] → +0.368 [+0.143, +0.524]
+  clf AP hgbc SB-nwp_msm_raw: +0.070 [-0.165, +0.254] → +0.053 [-0.185, +0.225]
+  clf AP logreg SA-S0: +0.058 [-0.078, +0.167] → +0.068 [-0.067, +0.185]
+  clf AP logreg SA-persistence: +0.142 [+0.003, +0.294] → +0.151 [+0.014, +0.311]
+  clf AP logreg SB-S0: +0.238 [-0.020, +0.444] → +0.227 [-0.032, +0.438]
+  clf AP logreg SB-SA: +0.180 [-0.120, +0.440] → +0.160 [-0.145, +0.413]
+  clf AP logreg SB-nwp_msm_raw: -0.087 [-0.384, +0.145] → -0.098 [-0.400, +0.142]
+  clf AUC hgbc SA-S0: +0.017 [-0.034, +0.076] → +0.018 [-0.046, +0.079]
+  clf AUC hgbc SA-persistence: +0.014 [-0.057, +0.081] → +0.015 [-0.052, +0.073]
+  clf AUC hgbc SB-S0: +0.125 [+0.055, +0.214] → +0.110 [+0.041, +0.198]
+  clf AUC hgbc SB-SA: +0.108 [+0.049, +0.185] → +0.092 [+0.027, +0.179]
+  clf AUC hgbc SB-nwp_msm_raw: -0.002 [-0.015, +0.012] → -0.018 [-0.048, +0.008]
+  clf AUC logreg SA-S0: +0.016 [-0.018, +0.051] → +0.017 [-0.018, +0.054]
+  clf AUC logreg SA-persistence: +0.028 [-0.022, +0.075] → +0.029 [-0.020, +0.076]
+  clf AUC logreg SB-S0: +0.066 [-0.002, +0.149] → +0.057 [-0.011, +0.142]
+  clf AUC logreg SB-SA: +0.050 [-0.014, +0.125] → +0.040 [-0.026, +0.117]
+  clf AUC logreg SB-nwp_msm_raw: -0.046 [-0.089, -0.008] → -0.055 [-0.105, -0.012]
+  reg AP(予測値で大雪) hgb SA-S0: -0.008 [-0.082, +0.039] → +0.015 [-0.109, +0.127]
+  reg AP(予測値で大雪) hgb SB-S0: +0.345 [-0.007, +0.682] → +0.381 [+0.031, +0.656]
+  reg AP(予測値で大雪) hgb SB-SA: +0.354 [+0.003, +0.688] → +0.366 [+0.027, +0.650]
+  reg AP(予測値で大雪) rf SA-S0: +0.021 [-0.070, +0.100] → +0.081 [-0.001, +0.164]
+  reg AP(予測値で大雪) rf SB-S0: +0.423 [+0.100, +0.698] → +0.426 [+0.084, +0.707]
+  reg AP(予測値で大雪) rf SB-SA: +0.402 [+0.044, +0.698] → +0.345 [+0.018, +0.636]
+  reg AP(予測値で大雪) ridge SA-S0: +0.048 [-0.009, +0.125] → +0.047 [-0.009, +0.126]
+  reg AP(予測値で大雪) ridge SB-S0: +0.290 [+0.067, +0.547] → +0.282 [+0.062, +0.537]
+  reg AP(予測値で大雪) ridge SB-SA: +0.243 [+0.007, +0.511] → +0.235 [+0.002, +0.496]
+  reg MAE hgb SA-S0: -0.085 [-0.216, +0.046] → -0.165 [-0.333, -0.006]
+  reg MAE hgb SA-persistence: -0.767 [-1.255, -0.330] → -0.847 [-1.355, -0.404]
+  reg MAE hgb SB-S0: -1.138 [-1.555, -0.750] → -1.178 [-1.623, -0.773]
+  reg MAE hgb SB-SA: -1.052 [-1.436, -0.695] → -1.013 [-1.387, -0.674]
+  reg MAE rf SA-S0: -0.147 [-0.260, -0.031] → -0.158 [-0.273, -0.039]
+  reg MAE rf SA-persistence: -0.763 [-1.259, -0.324] → -0.774 [-1.272, -0.334]
+  reg MAE rf SB-S0: -1.180 [-1.626, -0.767] → -1.204 [-1.655, -0.788]
+  reg MAE rf SB-SA: -1.033 [-1.433, -0.666] → -1.046 [-1.447, -0.680]
+  reg MAE ridge SA-S0: -0.070 [-0.191, +0.039] → -0.071 [-0.193, +0.038]
+  reg MAE ridge SA-persistence: -0.620 [-1.084, -0.199] → -0.621 [-1.086, -0.201]
+  reg MAE ridge SB-S0: -0.784 [-1.340, -0.252] → -0.783 [-1.345, -0.253]
+  reg MAE ridge SB-SA: -0.713 [-1.241, -0.211] → -0.712 [-1.237, -0.204]

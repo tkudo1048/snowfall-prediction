@@ -1,0 +1,6 @@
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+# 数値予報の取得ミスを直す前の旧結果(比較用。公開しない)
+05-snow-model-nwp/results_v1_before_fix/

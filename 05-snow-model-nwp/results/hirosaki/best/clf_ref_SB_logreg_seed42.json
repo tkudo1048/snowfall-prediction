@@ -1,0 +1,24 @@
+{
+ "task": "clf_ref",
+ "set": "SB",
+ "method": "logreg",
+ "seed": 42,
+ "params": {
+  "pos_weight": 1.7098967524339743,
+  "C": 0.006208671708093685
+ },
+ "cv_score": 0.546925171042281,
+ "cv_metric": "pooled AP",
+ "fold": [
+  0.8589,
+  0.8,
+  0.5777,
+  0.4655,
+  0.0381
+ ],
+ "cv_auc": 0.9398,
+ "trial": 78,
+ "n_trials": 100,
+ "seconds": 10.4,
+ "n_features": 134
+}

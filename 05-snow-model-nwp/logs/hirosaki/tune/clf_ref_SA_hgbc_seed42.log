@@ -1,0 +1,1 @@
+clf_ref_SA_hgbc_seed42: CV=0.2349 fold=[0.5398, 0.4712, 0.2549, 0.214, 0.0719] #86 {'pos_weight': 7.039046464088149, 'learning_rate': 0.0075505180929673005, 'max_iter': 375, 'max_leaf_nodes': 5, 'min_samples_leaf': 7, 'l2_regularization': 4.798737793708921, 'max_features': 0.7480856154077138} (881s)

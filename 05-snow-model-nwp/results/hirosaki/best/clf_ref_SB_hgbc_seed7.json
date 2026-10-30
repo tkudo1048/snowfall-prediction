@@ -1,0 +1,29 @@
+{
+ "task": "clf_ref",
+ "set": "SB",
+ "method": "hgbc",
+ "seed": 7,
+ "params": {
+  "pos_weight": 2.6504204513066987,
+  "learning_rate": 0.2628084532497439,
+  "max_iter": 300,
+  "max_leaf_nodes": 7,
+  "min_samples_leaf": 77,
+  "l2_regularization": 0.003792840181743659,
+  "max_features": 0.34394827622322044
+ },
+ "cv_score": 0.4300414146446083,
+ "cv_metric": "pooled AP",
+ "fold": [
+  0.758,
+  0.5348,
+  0.3962,
+  0.6701,
+  0.0471
+ ],
+ "cv_auc": 0.9402,
+ "trial": 31,
+ "n_trials": 100,
+ "seconds": 1052.3,
+ "n_features": 134
+}

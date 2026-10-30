@@ -1,0 +1,1 @@
+clf_SB_hgbc_seed2024: CV=0.2847 fold=[0.7576, 0.6429, 0.023, 0.4424, None] #97 {'pos_weight': 32.08430149518162, 'learning_rate': 0.03987457084082773, 'max_iter': 475, 'max_leaf_nodes': 18, 'min_samples_leaf': 85, 'l2_regularization': 0.009074327638491938, 'max_features': 0.3354718011314311} (1287s)

@@ -1,0 +1,27 @@
+{
+ "task": "reg",
+ "set": "S0",
+ "method": "rf",
+ "seed": 7,
+ "params": {
+  "target_log1p": true,
+  "n_estimators": 100,
+  "max_depth": 12,
+  "min_samples_leaf": 11,
+  "max_features": 0.9473770545314016
+ },
+ "cv_score": 2.3161274845990043,
+ "cv_metric": "mean fold MAE",
+ "fold": [
+  2.1644,
+  2.0811,
+  2.5654,
+  2.5784,
+  2.1914
+ ],
+ "cv_auc": null,
+ "trial": 75,
+ "n_trials": 100,
+ "seconds": 500.3,
+ "n_features": 55
+}

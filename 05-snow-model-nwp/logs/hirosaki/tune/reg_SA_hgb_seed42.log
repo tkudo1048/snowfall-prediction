@@ -1,0 +1,1 @@
+reg_SA_hgb_seed42: CV=2.1613 fold=[2.0355, 1.9154, 2.4236, 2.4181, 2.0138] #58 {'target_log1p': True, 'learning_rate': 0.006757418295033145, 'max_iter': 750, 'max_leaf_nodes': 6, 'min_samples_leaf': 61, 'l2_regularization': 0.6588136277325444, 'max_features': 0.22763777129959795} (348s)

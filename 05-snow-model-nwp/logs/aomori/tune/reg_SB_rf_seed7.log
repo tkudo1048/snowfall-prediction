@@ -1,0 +1,1 @@
+reg_SB_rf_seed7: CV=1.7087 fold=[1.2942, 1.7158, 2.2526, 1.8474, 1.4335] #14 {'target_log1p': True, 'n_estimators': 400, 'max_depth': 12, 'min_samples_leaf': 5, 'max_features': 0.6357316527622342} (2399s)
